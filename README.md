@@ -100,7 +100,119 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
+## Quick Start (Claude Code)
+
+**Already working? Skip to step 3!**
+
+1. **Install:**
+```bash
+pipx install git+https://github.com/matsengrp/mcp-compute-scout.git
+```
+
+2. **Restart Claude Code completely:**
+   - Close ALL Claude Code sessions (not just Ctrl+D)
+   - Reopen Claude Code fresh
+   - *Important: MCP servers need a full restart to connect properly*
+
+3. **Configure servers in `~/.config/mcp-compute-scout/servers.yml`:**
+```yaml
+servers:
+  - name: myserver
+    host: myserver.example.com
+    has_gpu: true
+```
+
+4. **Test it works:**
+Just ask Claude: *"What GPUs are available on myserver?"*
+
+**That's it!** If you get server info back, you're ready to go. No need to verify configurations or run complex tests.
+
+### Common Queries
+- "What GPUs are available on [server]?"
+- "Show me all server statuses"
+- "Find a GPU server with low CPU usage"
+- "Are there any free servers?"
+
+## Claude Code Integration (Advanced)
+
+### MCP Configuration
+
+**Global Configuration (Recommended):**
+Add to the **top level** of your `~/.claude.json`:
+```json
+{
+  "mcpServers": {
+    "compute-scout": {
+      "command": "mcp-compute-scout",
+      "env": {
+        "SSH_USER": "your-username"
+      }
+    }
+  },
+  "numStartups": 118,
+  ...
+}
+```
+
+**Project Configuration:**
+Or add to a project's `.claude.json`:
+```json
+{
+  "mcpServers": {
+    "compute-scout": {
+      "command": "mcp-compute-scout"
+    }
+  }
+}
+```
+
+**Important:** Global configuration makes the tools available everywhere. Project configuration only works in that specific directory.
+
+### Development Install
+```bash
+git clone https://github.com/matsengrp/mcp-compute-scout.git
+cd mcp-compute-scout
+pipx install -e .  # Changes auto-update
+```
+
+### Natural Language Usage Examples
+
+Instead of remembering complex slash commands, just ask naturally:
+
+```
+You: "What's the status of ermine?"
+Claude: [Shows server details with CPU, memory, GPU usage]
+
+You: "Are there any free GPU servers?"
+Claude: [Lists servers with available GPUs]
+
+You: "Find me a server with at least 32GB free memory"
+Claude: [Shows best matching servers]
+```
+
+### Project Setup for Teams
+
+Add to your project's `CLAUDE.md`:
+```markdown
+## Compute Scout Integration
+
+This project uses MCP Compute Scout for checking server resources.
+
+**Available Commands:**
+- Ask about server status: "What's the status of [server]?"
+- Find resources: "Find a server with [requirements]"
+- Check GPU availability: "Are there free GPUs?"
+- View all servers: "Show me all server statuses"
+
+**Setup:** MCP Compute Scout installed globally with pipx. 
+MCP server configured in ~/.claude.json.
+
+**Documentation:** https://github.com/matsengrp/mcp-compute-scout
+```
+
 ## Usage
+
+### Claude Desktop Slash Commands
 
 Once configured, the following slash commands are available in Claude Desktop:
 
